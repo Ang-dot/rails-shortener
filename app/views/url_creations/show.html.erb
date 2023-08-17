@@ -1,0 +1,44 @@
+<div class="container">
+
+  <%= render partial: "shared/shorten_url_button" %>
+
+  <ul class="list-group mb-5">
+    <li class="list-group-item">
+      Short URL: <%= link_to URI.join(root_url, @short_url.short_path).to_s, target: :_blank, class: "btn btn-light" do %>
+        <%= URI.join(root_url, @short_url.short_path) %>
+      <% end %>
+    </li>
+    <li class="list-group-item">
+      Original URL: <%= link_to @short_url.target_url.target_url, @short_url.target_url.target_url, style: "word-break: break-all;" %>
+    </li>
+    <li class="list-group-item">
+      Number of clicks: <%= @short_url.num_clicks %>
+    </li>
+  </ul>
+
+  <% if @short_url.num_clicks == 0 %>
+    <div class="alert alert-warning" role="alert">
+      This short URL has no clicks yet.
+    </div>
+  <% else %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">City</th>
+        <th scope="col">Country</th>
+        <th scope="col">Timestamp</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @short_url.geolocation.each do |geo| %>
+        <tr>
+          <td><%= geo.city %></td>
+          <td><%= geo.country %></td>
+          <td><%= geo.created_at %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+</div>

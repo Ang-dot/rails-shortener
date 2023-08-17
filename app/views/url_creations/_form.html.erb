@@ -1,0 +1,23 @@
+<%= form_with model: @target_url, url: url_creations_path, method: :post, class: "col col-lg-6" do |form|  %>
+  <% if form.object.errors.any? %>
+    <div class="alert alert-danger">
+      <% form.object.errors.full_messages.each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="mt-5 mb-3">
+    <%= form.label :target_url, "Paste a long URL", class: "text-start", id: "target" %>
+    <%= form.text_field :target_url, class: "form-control", placeholder: "Example: http://super-long-lin.com/shorter-it", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :slug, "Enter a custom slug (optional back-half)", class: "text-start" %>
+    <%= form.text_field :slug, class: "form-control", placeholder: "example: favorite-link" %>
+  </div>
+
+  <div class="text-center">
+    <%= form.submit "Shorten URL", data: { turbo: false }, class: "btn btn-primary px-3" %>
+  </div>
+<% end %>

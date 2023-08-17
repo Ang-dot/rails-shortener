@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="px-4 py-5 row justify-content-center">
+    <%= render partial: "shared/headline" %>
+    <%= render partial: "form" %>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col" style="width: 25%">Original URL</th>
+      <th scope="col" style="width: 30%">Title tag</th>
+      <th scope="col" style="width: 37.5%">Short URL</th>
+      <th scope="col" style="width: 7.5%">Stats</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @target_urls.each do |target_url| %>
+      <% target_url.short_urls.each_with_index do |short_url, index| %>
+        <tr>
+          <% if index == 0 %>
+            <td rowspan="<%= target_url.short_urls.count %>" style="word-break: break-all;"><%= link_to target_url.target_url, target_url.target_url %></td>
+            <td rowspan="<%= target_url.short_urls.count %>"><%= target_url.title_tag %></td>
+          <% end %>
+          <td>
+            <div class="flex gap-1">
+              <%= link_to root_url.truncate(30, omission: '.../') + short_url.short_path.to_s, URI.join(root_url, short_url.short_path).to_s, target: :_blank, class: "btn btn-light" %>
+              <%= button_tag "Copy", class: "btn btn-secondary", data: { controller: "clipboard", action: "click->clipboard#copy", clipboard_content_value: URI.join(root_url, short_url.short_path).to_s } %>
+            </div>
+          </td>
+          <td>
+            <%= link_to url_creation_path(short_url.short_path), class: "btn btn-outline-info rounded-circle" do %>
+              <i class="fa-solid fa-chart-bar"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
