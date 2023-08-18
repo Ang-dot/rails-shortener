@@ -1,7 +1,9 @@
 class TargetUrl < ApplicationRecord
     attr_accessor :slug
 
-    has_many :short_urls
+    # needs to be dependent, otherwise deleting target, will still
+    # have dangling short_url
+    has_many :short_urls, dependent: true
 
     validates :target_url, presence: true
     validate :valid_url_format

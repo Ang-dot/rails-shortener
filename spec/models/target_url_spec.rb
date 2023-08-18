@@ -22,6 +22,8 @@ RSpec.describe TargetUrl, type: :model do
     it "gets a non-null title tag" do
       target_url = build(:target_url, target_url: "http://coingecko.com")
 
+      # do no test Controller method in model testing
+      # controller tests are separate, check spec/controllers/portfolios_controller_spec.rb
       controller = UrlCreationsController.new
       title_tag = controller.send(:get_title_tag, target_url.target_url)
       expect(title_tag).not_to be_nil
